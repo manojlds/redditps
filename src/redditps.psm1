@@ -1,0 +1,1 @@
+Import-module "$psScriptRoot\redditps.dll"
