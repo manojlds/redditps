@@ -55,6 +55,7 @@
     <Reference Include="Microsoft.PowerShell.Commands.Management" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetChildItemParameters.cs" />
     <Compile Include="IRedditApi.cs" />
     <Compile Include="PathType.cs" />
     <Compile Include="PostListType.cs" />

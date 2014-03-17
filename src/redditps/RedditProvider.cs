@@ -67,13 +67,20 @@ namespace redditps
 
         protected override void GetChildItems(string path, bool recurse)
         {
+            var dynamicParameters = DynamicParameters as GetChildItemParameters;
             if (PathIsDrive(path)) path=@"reddit:\frontpage";
 
             Subreddit subreddit;
             PostListType type;
+
             var pathType = GetPathType(path, out subreddit, out type);
 
             if (pathType == PathType.Invalid) return;
+
+            if (dynamicParameters != null && dynamicParameters.Type != PostListType.None)
+            {
+                type = dynamicParameters.Type;
+            }
 
             if (pathType == PathType.Subreddit || pathType == PathType.SubredditWithType)
             {
@@ -87,7 +94,7 @@ namespace redditps
 
         protected override object GetChildItemsDynamicParameters(string path, bool recurse)
         {
-            return base.GetChildItemsDynamicParameters(path, recurse);
+            return new GetChildItemParameters();
         }
 
         protected override void GetChildNames(string path, ReturnContainers returnContainers)
