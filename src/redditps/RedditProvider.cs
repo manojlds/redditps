@@ -67,7 +67,7 @@ namespace redditps
 
         protected override void GetChildItems(string path, bool recurse)
         {
-            if (PathIsDrive(path)) return;
+            if (PathIsDrive(path)) path=@"reddit:\frontpage";
 
             Subreddit subreddit;
             PostListType type;
