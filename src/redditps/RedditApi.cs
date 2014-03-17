@@ -16,19 +16,19 @@ namespace redditps
             _reddit = new Reddit();
         }
 
-        public IEnumerable<Post> GetSubRedditItems(Subreddit subreddit, PostListType type = PostListType.Hot)
+        public IEnumerable<Post> GetSubRedditItems(Subreddit subreddit, PostListType type)
         {
-            if (type == PostListType.Hot)
+            if (type == PostListType.None || type == PostListType.Hot)
             {
-                return subreddit.GetHot().Take(10);
+                return subreddit.GetHot();
             }
 
             if (type == PostListType.New)
             {
-                return subreddit.GetNew().Take(10);
+                return subreddit.GetNew();
             }
 
-            return null;
+            return Enumerable.Empty<Post>();
         }
 
         public bool IsValidSubReddit(string sub, out Subreddit subreddit)

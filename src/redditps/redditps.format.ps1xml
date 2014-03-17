@@ -9,13 +9,13 @@
   <TableControl>
     <TableHeaders>
       <TableColumnHeader>
-        <Width>24</Width>
+        <Width>48</Width>
       </TableColumnHeader>
       <TableColumnHeader>
         <Width>24</Width>
       </TableColumnHeader>
       <TableColumnHeader>
-        <Width>24</Width>
+        <Width>15</Width>
       </TableColumnHeader>
     </TableHeaders>
     <TableRowEntries>

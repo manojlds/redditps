@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Provider;
 using RedditSharp;
@@ -74,9 +75,9 @@ namespace redditps
 
             if (pathType == PathType.Invalid) return;
 
-            if (pathType == PathType.Subreddit)
+            if (pathType == PathType.Subreddit || pathType == PathType.SubredditWithType)
             {
-                foreach (var item in _api.GetSubRedditItems(subreddit))
+                foreach (var item in _api.GetSubRedditItems(subreddit, type))
                 {
                     WriteItemObject(item, path, true);
                 }

@@ -5,7 +5,7 @@ namespace redditps
 {
     public interface IRedditApi
     {
-        IEnumerable<Post> GetSubRedditItems(Subreddit subreddit, PostListType type = PostListType.Hot);
+        IEnumerable<Post> GetSubRedditItems(Subreddit subreddit, PostListType type);
         bool IsValidSubReddit(string sub, out Subreddit subreddit);
     }
 }
