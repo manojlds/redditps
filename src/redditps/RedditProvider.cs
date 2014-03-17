@@ -1,12 +1,54 @@
 ﻿using System.Collections.ObjectModel;
 using System.Management.Automation;
 using System.Management.Automation.Provider;
+using RedditSharp;
 
 namespace redditps
 {
     [CmdletProvider("Reddit", ProviderCapabilities.None)]
-    public class RedditProvider : ContainerCmdletProvider, IContentCmdletProvider
+    public partial class RedditProvider : NavigationCmdletProvider, IContentCmdletProvider
     {
+        private readonly IRedditApi _api;
+        private const string PathSeparator = @"\";
+
+        public RedditProvider():this(new RedditApi())
+        {
+        }
+
+        public RedditProvider(IRedditApi api = null)
+        {
+            _api = api;
+        }
+
+        protected override bool IsItemContainer(string path)
+        {
+            if (PathIsDrive(path))
+            {
+                return true;
+            }
+
+            Subreddit subreddit;
+            PostListType type;
+            var pathType = GetPathType(path, out subreddit, out type);
+
+            if (pathType == PathType.Subreddit || pathType == PathType.SubredditWithType)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        protected override string GetChildName(string path)
+        {
+            return base.GetChildName(path);
+        }
+
+        protected override string GetParentPath(string path, string root)
+        {
+            return base.GetParentPath(path, root);
+        }
+
         public IContentReader GetContentReader(string path)
         {
             throw new System.NotImplementedException();
@@ -24,7 +66,22 @@ namespace redditps
 
         protected override void GetChildItems(string path, bool recurse)
         {
-            base.GetChildItems(path, recurse);
+            if (PathIsDrive(path)) return;
+
+            Subreddit subreddit;
+            PostListType type;
+            var pathType = GetPathType(path, out subreddit, out type);
+
+            if (pathType == PathType.Invalid) return;
+
+            if (pathType == PathType.Subreddit)
+            {
+                foreach (var item in _api.GetSubRedditItems(subreddit))
+                {
+                    WriteItemObject(item, path, true);
+                }
+                
+            }
         }
 
         protected override object GetChildItemsDynamicParameters(string path, bool recurse)
@@ -49,7 +106,22 @@ namespace redditps
 
         protected override void GetItem(string path)
         {
-            base.GetItem(path);
+            if (PathIsDrive(path))
+            {
+                WriteItemObject(PSDriveInfo, path, true);
+                return;
+            }
+            Subreddit subreddit;
+            PostListType type;
+            var pathType = GetPathType(path, out subreddit, out type);
+
+            if (pathType == PathType.Invalid) return;
+
+            if (pathType == PathType.Subreddit)
+            {
+                WriteItemObject(subreddit, path, true);
+            }
+            
         }
 
         protected override object GetItemDynamicParameters(string path)
@@ -59,7 +131,13 @@ namespace redditps
 
         protected override bool ItemExists(string path)
         {
-            return base.ItemExists(path);
+            if (PathIsDrive(path))
+            {
+                return true;
+            }
+
+            var pathType = GetPathType(path);
+            return pathType != PathType.Invalid;
         }
 
         protected override object ItemExistsDynamicParameters(string path)
@@ -89,12 +167,5 @@ namespace redditps
         {
             throw new System.NotImplementedException();
         }
-
-        protected override bool IsValidPath(string path)
-        {
-            throw new System.NotImplementedException();
-        }
-
-
     }
 }
