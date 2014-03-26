@@ -11,6 +11,7 @@ namespace redditps
     {
         private readonly IRedditApi _api;
         private const string PathSeparator = @"\";
+        private const string Drive = "reddit:";
 
         public RedditProvider():this(new RedditApi())
         {
@@ -32,22 +33,7 @@ namespace redditps
             PostListType type;
             var pathType = GetPathType(path, out subreddit, out type);
 
-            if (pathType == PathType.Subreddit || pathType == PathType.SubredditWithType)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        protected override string GetChildName(string path)
-        {
-            return base.GetChildName(path);
-        }
-
-        protected override string GetParentPath(string path, string root)
-        {
-            return base.GetParentPath(path, root);
+            return pathType == PathType.Subreddit || pathType == PathType.SubredditWithType;
         }
 
         public IContentReader GetContentReader(string path)
@@ -61,6 +47,21 @@ namespace redditps
         }
 
         public IContentWriter GetContentWriter(string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public object GetContentWriterDynamicParameters(string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ClearContent(string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public object ClearContentDynamicParameters(string path)
         {
             throw new System.NotImplementedException();
         }
@@ -82,34 +83,17 @@ namespace redditps
                 type = dynamicParameters.Type;
             }
 
-            if (pathType == PathType.Subreddit || pathType == PathType.SubredditWithType)
+            if (pathType != PathType.Subreddit && pathType != PathType.SubredditWithType) return;
+
+            foreach (var item in _api.GetSubRedditItems(subreddit, type))
             {
-                foreach (var item in _api.GetSubRedditItems(subreddit, type))
-                {
-                    WriteItemObject(item, path, true);
-                }
-                
+                WriteItemObject(item, path, true);
             }
         }
 
         protected override object GetChildItemsDynamicParameters(string path, bool recurse)
         {
             return new GetChildItemParameters();
-        }
-
-        protected override void GetChildNames(string path, ReturnContainers returnContainers)
-        {
-            base.GetChildNames(path, returnContainers);
-        }
-
-        protected override object GetChildNamesDynamicParameters(string path)
-        {
-            return base.GetChildNamesDynamicParameters(path);
-        }
-
-        protected override bool HasChildItems(string path)
-        {
-            return base.HasChildItems(path);
         }
 
         protected override void GetItem(string path)
@@ -132,11 +116,6 @@ namespace redditps
             
         }
 
-        protected override object GetItemDynamicParameters(string path)
-        {
-            return base.GetItemDynamicParameters(path);
-        }
-
         protected override bool ItemExists(string path)
         {
             if (PathIsDrive(path))
@@ -148,32 +127,12 @@ namespace redditps
             return pathType != PathType.Invalid;
         }
 
-        protected override object ItemExistsDynamicParameters(string path)
-        {
-            return base.ItemExistsDynamicParameters(path);
-        }
-
         protected override Collection<PSDriveInfo> InitializeDefaultDrives()
         {
             return new Collection<PSDriveInfo>
                        {
-                           new RedditDriveInfo("reddit", ProviderInfo, "reddit:", "Reddit Provider", null, true)
+                           new RedditDriveInfo("reddit", ProviderInfo, Drive, "Reddit Provider", null, true)
                        };
-        }
-
-        public object GetContentWriterDynamicParameters(string path)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void ClearContent(string path)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public object ClearContentDynamicParameters(string path)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
