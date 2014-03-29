@@ -74,14 +74,15 @@ namespace redditps
         {
             PostListType postListType;
             Subreddit subreddit;
-
-            return GetPathType(path, out subreddit, out postListType);
+            Post post;
+            return GetPathType(path, out subreddit, out postListType, out post);
         }
 
-        private PathType GetPathType(string path, out Subreddit subreddit, out PostListType postListType)
+        private PathType GetPathType(string path, out Subreddit subreddit, out PostListType postListType, out Post post)
         {
             postListType = PostListType.None;
             subreddit = null;
+            post = null;
             string subredditName;
 
             if (PathIsDrive(path))
@@ -105,7 +106,16 @@ namespace redditps
                     if (_api.IsValidSubReddit(subredditName, out subreddit))
                     {
                         var nextPart = pathChunks[1];
-                        if (IsPathChunkPostListType(nextPart, out postListType))
+                        int itemPosition;
+                        if (Int32.TryParse(nextPart, out itemPosition))
+                        {
+                            post = _api.GetPost(itemPosition);
+                            if (post != null)
+                            {
+                                return PathType.Item;
+                            }
+                        }
+                        else if (IsPathChunkPostListType(nextPart, out postListType))
                         {
                             return PathType.SubredditWithType;
                         }

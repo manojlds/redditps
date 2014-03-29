@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Provider;
 using RedditSharp;
@@ -31,19 +30,34 @@ namespace redditps
 
             Subreddit subreddit;
             PostListType type;
-            var pathType = GetPathType(path, out subreddit, out type);
+            Post post;
+            var pathType = GetPathType(path, out subreddit, out type, out post);
 
-            return pathType == PathType.Subreddit || pathType == PathType.SubredditWithType;
+            return pathType == PathType.Subreddit || 
+                   pathType == PathType.SubredditWithType || 
+                   pathType == PathType.Item;
         }
 
         public IContentReader GetContentReader(string path)
         {
-            throw new System.NotImplementedException();
+            if (PathIsDrive(path))
+            {
+                return null;
+            }
+
+            Subreddit subreddit;
+            PostListType type;
+            Post post;
+            var pathType = GetPathType(path, out subreddit, out type, out post);
+
+            if (pathType != PathType.Item) return null;
+
+            return new ItemContentReader(post);
         }
 
         public object GetContentReaderDynamicParameters(string path)
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         public IContentWriter GetContentWriter(string path)
@@ -73,8 +87,8 @@ namespace redditps
 
             Subreddit subreddit;
             PostListType type;
-
-            var pathType = GetPathType(path, out subreddit, out type);
+            Post post;
+            var pathType = GetPathType(path, out subreddit, out type, out post);
 
             if (pathType == PathType.Invalid) return;
 
@@ -85,9 +99,12 @@ namespace redditps
 
             if (pathType != PathType.Subreddit && pathType != PathType.SubredditWithType) return;
 
+            var position = 1;
             foreach (var item in _api.GetSubRedditItems(subreddit, type))
             {
+                _api.CachePost(position, item);
                 WriteItemObject(item, path, true);
+                position++;
             }
         }
 
@@ -105,15 +122,15 @@ namespace redditps
             }
             Subreddit subreddit;
             PostListType type;
-            var pathType = GetPathType(path, out subreddit, out type);
+            Post post;
+            var pathType = GetPathType(path, out subreddit, out type, out post);
 
             if (pathType == PathType.Invalid) return;
 
             if (pathType == PathType.Subreddit)
             {
                 WriteItemObject(subreddit, path, true);
-            }
-            
+            }            
         }
 
         protected override bool ItemExists(string path)

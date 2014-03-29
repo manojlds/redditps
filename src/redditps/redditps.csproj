@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="GetChildItemParameters.cs" />
     <Compile Include="IRedditApi.cs" />
+    <Compile Include="ItemContentReader.cs" />
     <Compile Include="PathType.cs" />
     <Compile Include="PostListType.cs" />
     <Compile Include="RedditApi.cs" />

@@ -18,17 +18,23 @@ namespace redditps
 
         public IEnumerable<Post> GetSubRedditItems(Subreddit subreddit, PostListType type)
         {
+            var posts = Enumerable.Empty<Post>();
             if (type == PostListType.None || type == PostListType.Hot)
             {
-                return subreddit.GetHot();
+                posts = subreddit.GetHot();
             }
 
             if (type == PostListType.New)
             {
-                return subreddit.GetNew();
+                posts = subreddit.GetNew();
             }
 
-            return Enumerable.Empty<Post>();
+            return posts;
+        }
+
+        private void CachePosts(IEnumerable<Post> posts)
+        {
+            _cache["recentposts"] = posts;
         }
 
         public bool IsValidSubReddit(string sub, out Subreddit subreddit)
@@ -49,6 +55,21 @@ namespace redditps
                 return false;
             }
 
+        }
+
+        public void CachePost(int position, Post item)
+        {
+            _cache[GetRecentPostKey(position)] = item;
+        }
+
+        public Post GetPost(int position)
+        {
+            return _cache[GetRecentPostKey(position)] as Post;
+        }
+
+        private static string GetRecentPostKey(int position)
+        {
+            return string.Format("recentpost_{0}", position);
         }
 
         private void SetCache(string sub, Subreddit subreddit)
