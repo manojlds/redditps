@@ -92,7 +92,11 @@ namespace redditps
         protected override void GetChildItems(string path, bool recurse)
         {
             var dynamicParameters = DynamicParameters as GetChildItemParameters;
-            if (PathIsDrive(path)) path=@"reddit:\frontpage";
+
+            if (PathIsDrive(path))
+            {
+                return;
+            }
 
             Subreddit subreddit;
             PostListType type;
