@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Management.Automation;
 using System.Management.Automation.Provider;
+using redditps.Parameters;
 using RedditSharp;
 
 namespace redditps
@@ -52,12 +54,19 @@ namespace redditps
 
             if (pathType != PathType.Item) return null;
 
+            var dynamicParameters = DynamicParameters as GetContentParameters;
+            if (dynamicParameters != null && dynamicParameters.InBrowser.IsPresent)
+            {
+                Process.Start(post.Url);
+                return null;
+            }
+
             return new ItemContentReader(post);
         }
 
         public object GetContentReaderDynamicParameters(string path)
         {
-            return null;
+            return new GetContentParameters();
         }
 
         public IContentWriter GetContentWriter(string path)

@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation;
 
-namespace redditps
+namespace redditps.Parameters
 {
     public class GetChildItemParameters
     {
