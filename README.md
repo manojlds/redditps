@@ -23,18 +23,20 @@ Once in the reddit: drive, we can navigate to a subreddit of interest, say, powe
 cd powershell
 #cd reddit:\powershell
 ```
-Getting the child items here will list the `Hot` items from the subreddit:
+Getting the child items here will list the first 15 `Hot` items, by default, from the subreddit:
 
 ```powershell
-ls | select -first 10
+ls
+ls -all
+ls -all | select -First 10
 ```
 
-It is necessary to select a finite range, otherwise it will end up fetching ALL the items from the subreddit.
+The `-all` parameter can be used to fetch all items in the subreddit. The output can be fed into a `select` to get only top 20, 50 and so on, as needed
 
 We can get the `New` items using the `-Type` argument:
 
 ```powershell
-ls -Type New | select -first 5
+ls -type new
 ```
 
 We can get the content of the items listed using their position in the listing:

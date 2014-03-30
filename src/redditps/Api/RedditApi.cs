@@ -17,7 +17,7 @@ namespace redditps.Api
             _reddit = new Reddit();
         }
 
-        public IEnumerable<Post> GetSubRedditItems(Subreddit subreddit, PostListType type)
+        public IEnumerable<Post> GetSubRedditItems(Subreddit subreddit, PostListType type, bool all = false)
         {
             var posts = Enumerable.Empty<Post>();
             if (type == PostListType.None || type == PostListType.Hot)
@@ -30,7 +30,7 @@ namespace redditps.Api
                 posts = subreddit.GetNew();
             }
 
-            return posts;
+            return all ? posts : posts.Take(15);
         }
 
         public bool IsValidSubReddit(string sub, out Subreddit subreddit)

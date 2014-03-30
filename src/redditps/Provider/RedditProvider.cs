@@ -103,19 +103,21 @@ namespace redditps.Provider
             Subreddit subreddit;
             PostListType type;
             Post post;
+            bool fetchAll = false;
             var pathType = GetPathType(path, out subreddit, out type, out post);
 
             if (pathType == PathType.Invalid) return;
 
-            if (dynamicParameters != null && dynamicParameters.Type != PostListType.None)
+            if (dynamicParameters != null)
             {
                 type = dynamicParameters.Type;
+                fetchAll = dynamicParameters.All;
             }
 
             if (pathType != PathType.Subreddit && pathType != PathType.SubredditWithType) return;
 
             var position = 1;
-            foreach (var item in _api.GetSubRedditItems(subreddit, type))
+            foreach (var item in _api.GetSubRedditItems(subreddit, type, fetchAll))
             {
                 _api.CachePost(position, item);
                 WriteItemObject(item, path, true);

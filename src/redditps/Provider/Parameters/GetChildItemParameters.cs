@@ -7,5 +7,8 @@ namespace redditps.Provider.Parameters
     {
         [Parameter(Mandatory = false)]
         public PostListType Type { get; set; }
+        
+        [Parameter(Mandatory = false)]
+        public SwitchParameter All { get; set; }
     }
 }
