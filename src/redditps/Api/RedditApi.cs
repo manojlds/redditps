@@ -33,11 +33,6 @@ namespace redditps.Api
             return posts;
         }
 
-        private void CachePosts(IEnumerable<Post> posts)
-        {
-            _cache["recentposts"] = posts;
-        }
-
         public bool IsValidSubReddit(string sub, out Subreddit subreddit)
         {
             GetFromCache(sub, out subreddit);

@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation;
 
-namespace redditps.Parameters
+namespace redditps.Provider.Parameters
 {
     public class GetContentParameters
     {

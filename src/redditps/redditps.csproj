@@ -59,9 +59,9 @@
     <Compile Include="Api\RedditApi.cs" />
     <Compile Include="Enums\PathType.cs" />
     <Compile Include="Enums\PostListType.cs" />
-    <Compile Include="Parameters\GetChildItemParameters.cs" />
-    <Compile Include="Parameters\GetContentParameters.cs" />
     <Compile Include="Provider\ItemContentReader.cs" />
+    <Compile Include="Provider\Parameters\GetChildItemParameters.cs" />
+    <Compile Include="Provider\Parameters\GetContentParameters.cs" />
     <Compile Include="Provider\RedditDriveInfo.cs" />
     <Compile Include="Provider\RedditProvider.cs" />
     <Compile Include="Provider\RedditProviderPath.cs" />

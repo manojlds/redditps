@@ -1,7 +1,7 @@
 ﻿using System.Management.Automation;
 using redditps.Enums;
 
-namespace redditps.Parameters
+namespace redditps.Provider.Parameters
 {
     public class GetChildItemParameters
     {

@@ -21,8 +21,8 @@ namespace redditps.Provider
 
         private bool PathIsDrive(string path)
         {
-            return String.IsNullOrEmpty(path.Replace(this.PSDriveInfo.Root, string.Empty)) ||
-                   String.IsNullOrEmpty(path.Replace(this.PSDriveInfo.Root + PathSeparator, string.Empty));
+            return String.IsNullOrEmpty(path.Replace(PSDriveInfo.Root, string.Empty)) ||
+                   String.IsNullOrEmpty(path.Replace(PSDriveInfo.Root + PathSeparator, string.Empty));
         }
 
         private string[] ChunkPath(string path)
@@ -43,32 +43,6 @@ namespace redditps.Provider
             }
 
             return result;
-        }
-
-        private string RemoveDriveFromPath(string path)
-        {
-            var result = path;
-
-            var root = PSDriveInfo == null ? String.Empty : PSDriveInfo.Root;
-
-            if (result == null)
-            {
-                result = String.Empty;
-            }
-
-            if (result.Contains(root))
-            {
-                result = result.Substring(result.IndexOf(root, StringComparison.OrdinalIgnoreCase) + root.Length);
-            }
-
-            return result;
-        }
-
-        private void ThrowTerminatingInvalidPathException(string path)
-        {
-            var message = String.Format("Path must represent either a subreddit or a item : {0}", path);
-
-            throw new ArgumentException(message);
         }
 
         private PathType GetPathType(string path)

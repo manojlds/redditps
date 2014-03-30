@@ -4,7 +4,7 @@ using System.Management.Automation;
 using System.Management.Automation.Provider;
 using redditps.Api;
 using redditps.Enums;
-using redditps.Parameters;
+using redditps.Provider.Parameters;
 using RedditSharp;
 
 namespace redditps.Provider
