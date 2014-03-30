@@ -1,4 +1,4 @@
-﻿namespace redditps
+﻿namespace redditps.Enums
 {
     public enum PostListType
     {

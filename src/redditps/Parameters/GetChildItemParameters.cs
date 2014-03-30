@@ -1,4 +1,5 @@
 ﻿using System.Management.Automation;
+using redditps.Enums;
 
 namespace redditps.Parameters
 {

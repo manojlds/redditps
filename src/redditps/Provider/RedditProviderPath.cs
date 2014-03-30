@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using redditps.Enums;
 using RedditSharp;
 
-namespace redditps
+namespace redditps.Provider
 {
     public partial class RedditProvider
     {

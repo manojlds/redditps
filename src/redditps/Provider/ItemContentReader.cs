@@ -5,7 +5,7 @@ using System.IO;
 using System.Management.Automation.Provider;
 using RedditSharp;
 
-namespace redditps
+namespace redditps.Provider
 {
     public class ItemContentReader : IContentReader
     {

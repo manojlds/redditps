@@ -55,20 +55,20 @@
     <Reference Include="Microsoft.PowerShell.Commands.Management" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRedditApi.cs" />
-    <Compile Include="ItemContentReader.cs" />
+    <Compile Include="Api\IRedditApi.cs" />
+    <Compile Include="Api\RedditApi.cs" />
+    <Compile Include="Enums\PathType.cs" />
+    <Compile Include="Enums\PostListType.cs" />
     <Compile Include="Parameters\GetChildItemParameters.cs" />
     <Compile Include="Parameters\GetContentParameters.cs" />
-    <Compile Include="PathType.cs" />
-    <Compile Include="PostListType.cs" />
-    <Compile Include="RedditApi.cs" />
-    <Compile Include="RedditDriveInfo.cs" />
-    <Compile Include="RedditProvider.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RedditProviderPath.cs" />
-    <Compile Include="RedditPs.cs">
+    <Compile Include="Provider\ItemContentReader.cs" />
+    <Compile Include="Provider\RedditDriveInfo.cs" />
+    <Compile Include="Provider\RedditProvider.cs" />
+    <Compile Include="Provider\RedditProviderPath.cs" />
+    <Compile Include="Provider\RedditPs.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

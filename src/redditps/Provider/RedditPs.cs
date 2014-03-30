@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Management.Automation;
 
-namespace redditps
+namespace redditps.Provider
 {
     [RunInstaller(true)]
     public class RedditPs : PSSnapIn

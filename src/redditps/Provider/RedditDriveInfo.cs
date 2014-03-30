@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation;
 
-namespace redditps
+namespace redditps.Provider
 {
     public class RedditDriveInfo : PSDriveInfo
     {

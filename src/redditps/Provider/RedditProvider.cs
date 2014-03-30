@@ -2,10 +2,12 @@
 using System.Diagnostics;
 using System.Management.Automation;
 using System.Management.Automation.Provider;
+using redditps.Api;
+using redditps.Enums;
 using redditps.Parameters;
 using RedditSharp;
 
-namespace redditps
+namespace redditps.Provider
 {
     [CmdletProvider("Reddit", ProviderCapabilities.None)]
     public partial class RedditProvider : NavigationCmdletProvider, IContentCmdletProvider

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using redditps.Enums;
 using RedditSharp;
 
-namespace redditps
+namespace redditps.Api
 {
     public interface IRedditApi
     {
